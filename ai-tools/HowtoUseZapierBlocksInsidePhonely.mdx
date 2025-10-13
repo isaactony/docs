@@ -1,0 +1,173 @@
+---
+title: "New file"
+description: "Description of your new file."
+---
+
+## What Zapier Blocks Do
+
+Zapier blocks in Phonely let your agent **run an action inside Zapier** at any point during its call flow not just after a call ends.\
+This means you can trigger automations, retrieve or send data, and even get real-time results that your agent can use later in the conversation.
+
+In this guide, we’ll walk through an example where a Zapier block retrieves data via a webhook and makes it available back to the agent for use in subsequent steps.
+
+---
+
+## Step 1: Decide Where You Want the Zapier Block to Run
+
+Every Zapier block in Phonely runs **at the exact step where it’s placed** in your flow.
+
+1. Open your agent’s call flow in Phonely.
+2. Identify where you want Zapier to perform an action — for example:
+   - After verifying a caller’s identity.
+   - After collecting project details.
+   - During a post-call process to enrich or validate data.
+3. Add a new block at that step and select **Zapier** from the available block types.
+4. Connect this block to your flow logic.
+
+![image.png](/images/image.png)
+
+<Tip>
+  Example: If you connect it to Verify Caller Identity, the agent will trigger the Zapier action as soon as that verification step completes.
+</Tip>
+
+## Step 2: Open the Zapier Block and Reveal Setup Options
+
+Click on the Zapier block you just added.\
+A small configuration panel will open. .
+
+You’ll notice three tabs:
+
+- **Setup** – Choose the action (e.g., send call data).
+- **Configure** – Define what data is sent or how the webhook behaves.
+- **Test** – Test the connection and ensure your Zap runs successfully.
+
+![Cont Pn](/images/cont.png)
+
+Click **Continue** to expand the setup view
+
+## Step 3: Configure the Zap in Zapier (Webhook Setup)
+
+Webhooks are one way that apps can send automated messages or information to other apps. It's how PayPal tells your accounting app when your clients pay you, how Twilio routes phone calls to your number, and how WooCommerce can notify you about new orders in Slack.
+
+To allow Phonely to communicate with Zapier, you first need a webhook endpoint that Zapier listens to.
+
+1. Go to Zapier and Create Zapier webhook.
+1. This will generate a Webhook URL. 
+
+![Createzapwebhook Pn](/images/createzapwebhook.png)
+
+3. When setting up the webhook select **Catch Hook** as the trigger event. 
+
+![Catch Pn](/images/catch.png)
+
+4. Click **Continue**.
+5. Zapier will generate a **Webhook URL**, such as:
+
+   ```
+   https://hooks.zapier.com/hooks/catch/20399822/u9h5lth/
+   
+   ```
+
+   ![Ksnip 20251013 141124 Pn](/images/ksnip_20251013-141124.png)
+7. Copy this URL — you’ll use it inside Phonely in the next step.
+
+<Tip>
+  Think of this URL as Zapier’s “listening address.” Whenever your Phonely agent reaches this step, it will call this address to trigger whatever you’ve configured in Zapier
+</Tip>
+
+## Step 4: Connect the Webhook URL in Phonely
+
+1. Return to your Phonely agent and go to the **Configure** tab of the Zapier block.
+2. Paste the **Webhook URL** from Zapier into the **Webhook URL** field.
+
+   ![Copyurlnew Pn](/images/copyurlnew.png)
+
+
+3. Choose how your agent should interact with Zapier:
+   - **Option 1: Send full call data** – Sends all current call information (transcript, summary, caller details, etc.) for processing in Zapier.
+   - **Option 2: Customize the data body** – Let you manually define which variables to send or what structure to use.
+
+![Dataselection Pn](/images/dataselection.png)
+
+4. If you choose to customize:
+   - Click **Add Field** for each key-value pair.
+   - The first row (Key) is the data name you want Zapier to receive.
+
+![Addfield Pn](/images/addfield.png)
+
+The second row (Value) can be:
+
+- A variable from your agent (like _agent name_ or _Phonely Phone_).
+- A static value you type manually.
+
+For instance, click to expand the post call variables to access and choose a value. 
+
+![Postcallvars Pn](/images/postcallvars.png)
+
+For example you can enter a key values named sentiment and select the post call variable as sentiment to add the respective values.
+
+![Keyvalueapar Pn](/images/keyvalueapar.png)
+
+You can also manually enter a value.
+
+![Manualvalue Pn](/images/manualvalue.png)
+
+This configuration ensures the agent sends specific data Zapier needs to execute your workflow — like fetching related records or updating external systems.
+
+##  Step 5: Test the Zapier Connection
+
+Switch to the **Test** tab in the Zapier block and click **Test**.
+
+![Test Pn](/images/test.png)
+
+\
+Phonely will call your Zapier webhook and display a confirmation once it connects successfully.
+
+You should see a message such as:
+
+![Testsucces Pn](/images/testsucces.png)
+
+This means the webhook was triggered, and Zapier received your request.
+
+## Step 6: Verify the Incoming Data in Zapier
+
+Go back to your Zapier browser tab.
+
+1. In the **Test** tab of your webhook trigger, click **Find New Records**.
+
+   ![Finddata Pn](/images/finddata.png)
+1. This prompts Zapier to look for the test data your Phonely agent just sent.
+2. You should see one or more new records appear labeled something like “Request ”.
+
+   ![Reqest Pn](/images/reqest.png)
+3. Click a record to view the incoming fields.
+
+   ![Viewreqdata Pn](/images/viewreqdata.png)
+4. If everything looks right, click **Continue with selected record**.
+
+At this point, Zapier understands what data structure Phonely will send whenever the agent runs this step.
+
+## Step 7: Add Actions in Zapier _(Optional)_
+
+Your Zapier block is now successfully configured and connected to Phonely.\
+Optionally, you can add more actions inside your Zapier webhook to extend what happens after the webhook is triggered.
+
+1. Click the **\+** icon below your “Catch Hook” step in Zapier.
+2. Choose an app or service you want Zapier to connect with.\
+   For example:
+   - **Google Sheets** – Store or update caller details.
+   - **HubSpot** – Create or update a contact record.
+   - **ChatGPT (OpenAI)** – Analyze the call transcript and return a sentiment or summary.
+   - **Custom Webhook** – Query another API or perform an advanced lookup.
+
+   ![Optinalactions Pn](/images/optinalactions.png)
+
+## Step 8: Publish Your Flow
+
+3. From now on, whenever your agent reaches that specific step (for example, _Verify Caller Identity_), it will automatically execute the configured Zapier block.
+
+   ![Flowdone Pn](/images/flowdone.png)
+
+---
+
+## FAQs
